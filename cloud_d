@@ -1,8 +1,8 @@
-export INSTANCE_NAME=nucleus-jumphost-627
-export ZONE=us-west4-a
+export INSTANCE_NAME=nucleus-jumphost-926
+export ZONE=us-west4-c
 export REGION=us-west4
-export PORT=8082
-export FIREWALL_NAME=allow-tcp-rule-179
+export PORT=8080
+export FIREWALL_NAME=permit-tcp-rule-619
 
 gcloud compute instances create $INSTANCE_NAME \
           --network nucleus-vpc \
@@ -42,7 +42,7 @@ EOF
 gcloud compute instance-templates create web-server-template \
 --metadata-from-file startup-script=startup.sh \
 --network nucleus-vpc \
---machine-type g1-small \
+--machine-type f1-micro \
 --region $ZONE
  
  
@@ -50,7 +50,7 @@ gcloud compute target-pools create nginx-pool --region=$REGION
  
  
 gcloud compute instance-groups managed create web-server-group \
---base-instance-name web-server \
+--base-instance-name 2 nginx web-server \
 --size 2 \
 --template web-server-template \
 --region $REGION
